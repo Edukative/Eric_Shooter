@@ -19,12 +19,27 @@ public class PlayerController : MonoBehaviour
 
     public CollisionFlags collisionesdelPlayer = CollisionFlags.None;
 
+    public Camera myCamera;
+
+    public Quaternion playerInitialRotationt;
+    public Quaternion camerInitialRotation;
+    public float cameraAngleX;
+
+    public float mouseXSensibility = 1.0f;
+    public float mouseYSensibility = 1.0f;
+
+    public bool invertY = false;
+
+    public float topAngleY = 45.0f;
+    public float botAngleY = -45.0f;
+
     private Rigidbody rigidBody;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidBody = this.GetComponent<Rigidbody>()
+        rigidBody = this.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -35,5 +50,30 @@ public class PlayerController : MonoBehaviour
 
         float mouse_x = Input.GetAxis("Mouse X");
         float mouse_Y = Input.GetAxis("Mouse Y");
+
+        int invert = invertY ? -1 : 1;
+
+        cameraAngleX += mouse_Y * mouseYSensibility * invert;
+        cameraAngleX = Mathf.Clamp(cameraAngleX, botAngleY, topAngleY);
+
+        Quaternion angle_mouseX = Quaternion.Euler(0.0f, mouse_x * mouseXSensibility, 0.0f);
+        Quaternion angle_mouseY = Quaternion.Euler(cameraAngleX, 0.0f, 0.0f);
+
+        transform.localRotation *= angle_mouseX;
+        myCamera.transform.localRotation = angle_mouseY;
+
+        float runMultiplier = (Input.GetAxis("Run") > 0) ? 10.0f : 1.0f;
+
+        direction.x = dir_x * walkingSpeed * runMultiplier;
+        direction.z = dir_z * walkingSpeed * runMultiplier; 
+
+        direction.y = -gravity * gravityMultiplier;
+
+        direction = Quaternion.FromToRotation(Vector3.forward, transform.forward) * direction;
+
+        player.Move(direction * Time.deltaTime);
+
+
+
     }
 }
