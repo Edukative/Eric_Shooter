@@ -35,15 +35,23 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rigidBody;
 
+    Shooter shooter;
+
 
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = this.GetComponent<Rigidbody>();
+        shooter = this.GetComponent<Shooter>();
     }
 
     // Update is called once per frame
     void Update()
+    {
+
+    }
+
+    void FixedUpdate ()
     {
         float dir_x = Input.GetAxis("Horizontal");
         float dir_z = Input.GetAxis("Vertical");
@@ -62,10 +70,10 @@ public class PlayerController : MonoBehaviour
         transform.localRotation *= angle_mouseX;
         myCamera.transform.localRotation = angle_mouseY;
 
-        float runMultiplier = (Input.GetAxis("Run") > 0) ? 10.0f : 1.0f;
+        float runMultiplier = (Input.GetAxis("Run") > 0) ? 2.0f : 1.0f;
 
         direction.x = dir_x * walkingSpeed * runMultiplier;
-        direction.z = dir_z * walkingSpeed * runMultiplier; 
+        direction.z = dir_z * walkingSpeed * runMultiplier;
 
         direction.y = -gravity * gravityMultiplier;
 
@@ -73,7 +81,24 @@ public class PlayerController : MonoBehaviour
 
         player.Move(direction * Time.deltaTime);
 
+        if ((Input.GetAxis("Jump")) > 0 && (isGrounded))
+        {
+            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
 
+        //rigidBody.AddForce(-transform.up * gravity * gravityMultiplier);
 
+        isGrounded = player.isGrounded;
+
+        if (Input.GetAxis("Cancel") > 0)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
+
 }

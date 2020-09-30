@@ -374,6 +374,27 @@ Transform:
   m_Father: {fileID: 1926515327}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1434565660 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: fddeeac0ebed86c4cab4320764b5c227, type: 3}
+  m_PrefabInstance: {fileID: 1760534434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &1434565661
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434565660}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 7430074b4869c6b40add7f525311453f, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1001 &1760534434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -469,7 +490,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -563,7 +584,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926515321}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 76.28, y: 0.95, z: 63.6}
+  m_LocalPosition: {x: 76.28, y: 1.02, z: 63.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1760534435}
@@ -586,17 +607,17 @@ MonoBehaviour:
   player: {fileID: 1926515323}
   direction: {x: 0, y: 0, z: 0}
   walkingSpeed: 10
-  jumpForce: 0
-  gravityMultiplier: 10
-  gravity: 1
+  jumpForce: 500
+  gravityMultiplier: 1.5
+  gravity: 9.8
   isGrounded: 0
-  collisionesdelPlayer: 0
+  collisionesdelPlayer: 4
   myCamera: {fileID: 963194227}
   playerInitialRotationt: {x: 0, y: 0, z: 0, w: 0}
   camerInitialRotation: {x: 0, y: 0, z: 0, w: 0}
   cameraAngleX: 0
-  mouseXSensibility: 1
-  mouseYSensibility: 1
-  invertY: 0
+  mouseXSensibility: 5
+  mouseYSensibility: 5
+  invertY: 1
   topAngleY: 45
   botAngleY: -45
