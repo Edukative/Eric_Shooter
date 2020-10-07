@@ -35,6 +35,14 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rigidBody;
 
+    public bool isDead = false;
+
+    public int health = 0;
+    public int shield = 0;
+    public int ammo = 0;
+    public int savedAmmo = 0;
+    public bool hasKey = false;
+
     Shooter shooter;
 
 

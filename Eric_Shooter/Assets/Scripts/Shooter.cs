@@ -15,12 +15,21 @@ public class Shooter : MonoBehaviour
     public AudioClip[] shooterSounds;
 
     [SerializeField]
+    private GameObject decal;
+
+    public GameObject[] maxDecals;
+
+    private GameObject hole;
+
+    [SerializeField]
     private GameObject ball;
+
+    PlayerController stats;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        stats = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -28,7 +37,11 @@ public class Shooter : MonoBehaviour
     {
        if (Input.GetMouseButtonUp(0))
        {
-            Shoot();
+            if (stats.ammo > 0)
+            {
+                Shoot();
+                stats.ammo--;
+            }
        }
     }
 
@@ -43,7 +56,16 @@ public class Shooter : MonoBehaviour
 
         if (Physics.Raycast(disparo, out hit))
         {
-            Debug.Log(hit);
+            if (hit.collider != null)
+            {
+                if (!hit.collider.isTrigger)
+                {
+                    Vector3 normal = hit.normal;
+                    hole = GameObject.Instantiate(decal, hit.point, Quaternion.identity);
+                    hole.transform.forward = normal;
+                    AddDecal(hole);
+                }     
+            }    
         }
 
         shooterAnim.clip = shooterAnims[0];
@@ -51,4 +73,54 @@ public class Shooter : MonoBehaviour
         shooterAudio.clip = shooterSounds[0];
         shooterAudio.Play();
     }
+
+    void AddDecal (GameObject decal)
+    {
+        for (int i = 0; i < maxDecals.Length; i++)
+        { 
+
+            if (maxDecals[i] == null)
+            {
+                maxDecals[i] = decal;
+                break;
+            }
+
+            if (maxDecals[i] != null && i == maxDecals.Length - 1)
+            {
+                DecalCleaner(decal);
+            }
+        }
+    }
+
+    void DecalCleaner (GameObject decal)
+    {
+        for (int j = 0; j < maxDecals.Length; j++)
+        {
+            if (j == 0)
+            {
+                Destroy(maxDecals[j]);
+            }
+            if (j > 0 && j < 24)
+            {
+                maxDecals[j - 1] = maxDecals[j];
+            }
+            if (j == 24)
+            {
+                maxDecals[j] = decal;
+            }
+        }
+    }
+
+    public void Reload()
+    {
+        stats.ammo = 45;
+
+        shooterAnim.clip = shooterAnims[1];
+        shooterAnim.Play();
+
+        shooterAudio.clip = shooterSounds[1];
+        shooterAudio.Play();
+    }
 }
+
+
