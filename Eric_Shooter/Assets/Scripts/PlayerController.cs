@@ -89,12 +89,16 @@ public class PlayerController : MonoBehaviour
 
         player.Move(direction * Time.deltaTime);
 
-        if ((Input.GetAxis("Jump")) > 0 && (isGrounded))
+        if ((Input.GetAxis("Jump") > 0) && (isGrounded))
         {
-            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            direction.y = jumpForce;
+            if (jumpForce > 0.0f)
+            {
+                rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
         }
 
-        //rigidBody.AddForce(-transform.up * gravity * gravityMultiplier);
+        rigidBody.AddForce(-transform.up * gravity * gravityMultiplier);
 
         isGrounded = player.isGrounded;
 
