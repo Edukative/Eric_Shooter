@@ -44,13 +44,20 @@ public class PlayerController : MonoBehaviour
     public bool hasKey = false;
 
     Shooter shooter;
+    MisterUI ui;
 
+    //SHOOTING GALLERY
+    public GameObject[] targets;
+    public AudioSource shootingGallery;
+    private bool visited = false;
+    private bool respawned = false;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = this.GetComponent<Rigidbody>();
         shooter = this.GetComponent<Shooter>();
+        ui = GameObject.Find("Canvas").GetComponent<MisterUI>(); 
     }
 
     // Update is called once per frame
@@ -113,4 +120,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "shootinggallery")
+        {
+            shootingGallery.Play();
+            ui.textScore.enabled = true;
+            respawned = false;
+        }
+    }
 }
