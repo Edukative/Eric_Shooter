@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
     public bool isDead = false;
 
+    //STATS
     public int health = 0;
     public int shield = 0;
     public int ammo = 0;
@@ -128,5 +129,63 @@ public class PlayerController : MonoBehaviour
             ui.textScore.enabled = true;
             respawned = false;
         }
+    }
+
+    void OnTriggerStay(Collider col)
+    {
+        if(col.gameObject.tag == "shootinggallery")
+        {
+            if (visited)
+            {
+                if(!respawned)
+                {
+                    ui.textRestartGallery.enabled = true;
+                    if (Input.GetKeyDown(KeyCode.R))
+                    {
+                        RespawnTargets();
+                        respawned = true;
+                    }
+                }
+                else if (respawned)
+                {
+                    ui.textRestartGallery.enabled = false;
+                }
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        if (col.gameObject.tag == "shootinggallery")
+        {
+            if (!visited)
+            {
+                visited = true;
+            }
+            ui.textScore.enabled = false;
+            ui.textRestartGallery.enabled = false;
+            shootingGallery.Stop();
+        }
+    }
+
+    void RespawnTargets ()
+    {
+        for (int i = 0; i < targets.Length; i++)
+        {
+            if (!targets[i].activeSelf)
+            {
+                targets[i].SetActive(true);
+            }
+        }
+        ui.score = 0;
+    }
+
+    public void UIUpdate ()
+    {
+        ui.health = health;
+        ui.ammo = ammo;
+        ui.armor = shield;
+
+        ui.UIStatsChange();
     }
 }

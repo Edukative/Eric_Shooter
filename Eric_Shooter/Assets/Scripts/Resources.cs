@@ -32,12 +32,27 @@ public class Resources : MonoBehaviour
                     else if (stats.health < 100)
                     {
                         stats.health += 25;
+                        stats.UIUpdate();
                         Destroy(this.gameObject);
                     }
                     break;
                 case ("ammo"):
                     stats.savedAmmo++;
+                    stats.UIUpdate();
                     Destroy(this.gameObject);
+                    break;
+
+                case ("shield"):
+                    if (stats.shield == 100)
+                    {
+
+                    }
+
+                    else if (stats.shield < 100)
+                    {
+                        stats.shield += 25;
+                        Destroy(this.gameObject);
+                    }
                     break;
             }
         }

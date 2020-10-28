@@ -7,12 +7,24 @@ using UnityEngine.UI;
 
 public class MisterUI : MonoBehaviour
 {
+    //STATS TEXT
     public Text textScore;
+    public Text textHealth;
+    public Text textArmor;
+    public Text textAmmo;
 
     public Text textRestartGallery;
 
+    //STATS NUMBERS
     [HideInInspector]
     public int score;
+    [HideInInspector]
+    public int health;
+    [HideInInspector]
+    public int armor;
+    [HideInInspector]
+    public int ammo;
+
 
     public GameObject player;
     
@@ -36,5 +48,12 @@ public class MisterUI : MonoBehaviour
     public void SumScore (int sum)
     {
         score = score + sum;
+    }
+
+    public void UIStatsChange ()
+    {
+        textAmmo.text = ammo.ToString();
+        textHealth.text = health.ToString();
+        textArmor.text = armor.ToString();
     }
 }
